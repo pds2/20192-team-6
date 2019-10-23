@@ -7,5 +7,5 @@ Projeto desenvolvido pelos alunos:
 - Bernardo 
 - Fernando
 - Otávio
-- Vinícius
+- Vinícius  .
 
