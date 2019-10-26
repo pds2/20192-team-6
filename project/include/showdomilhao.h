@@ -2,6 +2,7 @@
 #define SHOWDOMILHAO_H
 
 using namespace std;
+#include <string>       /* string */
 
 class Resultado{
 
@@ -33,6 +34,7 @@ private:
     int respostaCorreta;
     int dificuldade;
     string pergunta;
+    string alternativas[4];
 
 public:
     Pergunta();
@@ -40,10 +42,12 @@ public:
     int get_respostaCorreta();
     int get_dificuldade();
     string get_pergunta();
+    string get_alternativa(int);
 
     void set_respostaCorreta(int respostaCorreta);
     void set_dificuldade(int dificuldade);
     void set_pergunta(string pergunta);
+    void set_alternativa(int, string);
 
     bool verificaAcerto(int respostaCorreta);
     void mostraAlternativas();

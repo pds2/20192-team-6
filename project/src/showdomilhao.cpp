@@ -66,8 +66,12 @@ int Pergunta::get_dificuldade(){
     return this->dificuldade;
 }
 
-string Pergunta::pergunta(){
+string Pergunta::get_pergunta(){
     return this->pergunta;
+}
+
+string Pergunta::get_alternativa(int i) {
+    return this->alternativas[i];
 }
 
 void Pergunta::set_respostaCorreta(int mes){
@@ -78,12 +82,16 @@ void Pergunta::set_dificuldade(int ano){
     this->dificuldade = dificuldade;
 }
 
-void Pergunta::set_pergunta(int mes){
+void Pergunta::set_pergunta(string pergunta){
     this->pergunta = pergunta;
 }
 
+void Pergunta::set_alternativa(int i, string alternativa){
+    this->alternativas[i] = alternativa;
+}
+
 bool Pergunta::verificaAcerto(int alternativaEscolhida){
-    if(alternativaEscolhida = get_respostaCorreta())
+    if(alternativaEscolhida == get_respostaCorreta())
         return 1;
     return 0;
 }
@@ -93,8 +101,8 @@ void Pergunta::mostraAlternativas(){
 }
 
 
-int main(){
+/*int main(){
     int alternativaEscolhida;
 
     return 0;
-}
+} */
