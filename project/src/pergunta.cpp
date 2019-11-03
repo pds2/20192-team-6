@@ -4,6 +4,11 @@
 
 using namespace std;
 
+// Construtor vazio
+Pergunta::Pergunta() {
+    this->alternativas = new string[4];
+}
+
 Pergunta::Pergunta(string pergunta, string *alternativas, int respostaCorreta, int dificuldade){    
     this->pergunta = pergunta;    
 

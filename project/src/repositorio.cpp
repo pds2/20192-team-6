@@ -68,9 +68,6 @@ vector<Pergunta> Repositorio::sortearPerguntas(int numPerguntas) {
     // Vector que armazena as perguntas sorteadas
     vector<Pergunta> perguntas;
 
-    // Numero de perguntas ja sorteadas
-    //int perguntasSorteadas = 0;
-
     // Array com os nomes dos arquivos
     string nomesArquivos[] = {"faceis.txt", "medias.txt", "dificeis.txt"};
 

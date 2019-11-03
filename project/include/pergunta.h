@@ -17,7 +17,8 @@ class Pergunta{
         Pergunta();
         
         virtual ~Pergunta(){
-            delete[] alternativas;
+            alternativas = nullptr;
+            delete alternativas;
         }
 
         int get_respostaCorreta();
