@@ -120,8 +120,8 @@ string Repositorio::perguntaToString(Pergunta pergunta) {
     linha += pergunta.get_alternativa(2)  + "****";
     linha += pergunta.get_alternativa(3)  + "****";
     linha += pergunta.get_alternativa(3)  + "****";
-    linha += pergunta.get_respostaCorreta()  + "****";
-    linha += pergunta.get_dificuldade()  + "****";
+    linha += pergunta.get_alternativa(pergunta.get_respostaCorreta())  + "****";
+    linha += to_string(pergunta.get_dificuldade())  + "****";
 
     return linha;
 }
@@ -228,47 +228,44 @@ string Repositorio::resultadoToString(Resultado resultado) {
 }
 
 // Converte de string para objeto //
-Resultado Repositorio::stringToResultado(string resultadoStr) {
-    Resultado resultado = Resultado();
+Resultado Repositorio::stringToResultado(string resultadoStr) {    
     size_t pos = 0;
     stringstream ss;
 
     // LÊ NOME
     pos = resultadoStr.find(sequenciaSeparadora);
-    resultado.set_nomePessoa(resultadoStr.substr(0, pos));
+    string nomePessoa = resultadoStr.substr(0, pos);
     resultadoStr.erase(0, pos + sequenciaSeparadora.length());
 
     // LÊ PONTUAÇÃO
     pos = resultadoStr.find(sequenciaSeparadora);
     float pontuacao = 0;
     ss << resultadoStr.substr(0, pos);  
-    ss >> pontuacao;
-    resultado.set_pontuacao(pontuacao);
+    ss >> pontuacao;    
     resultadoStr.erase(0, pos + sequenciaSeparadora.length());
     
     // LÊ DIA
     pos = resultadoStr.find(sequenciaSeparadora);
     int dia = 0;
     ss << resultadoStr.substr(0, pos);  
-    ss >> dia;
-    resultado.set_dia(dia);
+    ss >> dia;    
     resultadoStr.erase(0, pos + sequenciaSeparadora.length());
 
     // LÊ MÊS
     pos = resultadoStr.find(sequenciaSeparadora);
     int mes = 0;
     ss << resultadoStr.substr(0, pos);  
-    ss >> mes;
-    resultado.set_mes(mes);
+    ss >> mes;    
     resultadoStr.erase(0, pos + sequenciaSeparadora.length());
     
     // LÊ ANO
     pos = resultadoStr.find(sequenciaSeparadora);
     int ano = 0;
     ss << resultadoStr.substr(0, pos);  
-    ss >> ano;
-    resultado.set_mes(ano);
+    ss >> ano;    
     resultadoStr.erase(0, pos + sequenciaSeparadora.length());
+
+    Resultado resultado = Resultado(nomePessoa, pontuacao, dia, mes, ano);
 
     return resultado;
 }

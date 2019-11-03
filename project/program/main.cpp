@@ -17,12 +17,7 @@ int main (void) {
     cout << perguntas[5].get_pergunta() << endl;
 
     // SALVAR RESULTADO
-    Resultado r = Resultado();
-    r.set_nomePessoa("Bernardo Nunes");
-    r.set_pontuacao(300000);
-    r.set_ano(2019);
-    r.set_mes(10);
-    r.set_dia(26);
+    Resultado r = Resultado("Bernardo Nunes", 300000, 26, 10, 2019);    
     repo.salvarResultado(r);
 
 

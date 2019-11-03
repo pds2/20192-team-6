@@ -12,7 +12,8 @@
 #ifndef REPOSITORIO_H
 #define REPOSITORIO_H
 
-#include "showdomilhao.h"
+#include "pergunta.h"
+#include "resultado.h"
 #include <iostream>
 #include <fstream>      /* ofstream */
 #include <string>       /* string */
