@@ -37,6 +37,10 @@ string Pergunta::get_alternativa(int i) {
     return this->alternativas[i];
 }
 
+string* Pergunta::get_alternativas() {
+    return this->alternativas;
+}
+
 void Pergunta::set_respostaCorreta(int respostaCorreta){
     this->respostaCorreta = respostaCorreta;
 }
@@ -51,6 +55,14 @@ void Pergunta::set_pergunta(string pergunta){
 
 void Pergunta::set_alternativa(int i, string alternativa){
     this->alternativas[i] = alternativa;
+}
+
+bool Pergunta::tem_alternativa(int i){
+    return this->alternativas[i] != "[Alternativa Eliminada]";
+}
+
+void Pergunta::remover_alternativa(int i){
+    this->alternativas[i] = "[Alternativa Eliminada]";
 }
 
 bool Pergunta::verificaAcerto(int alternativaEscolhida){

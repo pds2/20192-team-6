@@ -1,0 +1,22 @@
+#include <iostream>
+#include <string>
+#include "ajuda.h"
+
+using namespace std;
+
+
+Ajuda::Ajuda(Pergunta pergunta){    
+    this->pergunta = pergunta;
+}
+
+string Ajuda::get_options(){
+    return "";
+}
+
+void Ajuda::choose_option(int option){
+
+}
+
+PerguntaComAjuda Ajuda::get_perguntaComAjuda(){
+    return this->perguntaComAjuda;
+}

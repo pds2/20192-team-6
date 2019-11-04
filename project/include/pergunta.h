@@ -26,10 +26,14 @@ class Pergunta{
         string get_pergunta();
         string get_alternativa(int);
 
+        string* get_alternativas();
+
         void set_respostaCorreta(int respostaCorreta);
         void set_dificuldade(int dificuldade);
         void set_pergunta(string pergunta);
         void set_alternativa(int, string);
+        bool tem_alternativa(int);
+        void remover_alternativa(int);
 
         bool verificaAcerto(int respostaCorreta);
         void mostraAlternativas();
