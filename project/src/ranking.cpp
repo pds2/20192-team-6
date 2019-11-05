@@ -1,25 +1,27 @@
 #include "ranking.h"
 #include <algorithm>
 
+
+
 Ranking::Ranking (vector<Resultado> resultados){
 	this->resultados = resultados;
-
 }
 
 
-void Ranking::addToListaResultados(Resultado resultado){   //adiciona à lista os resultados
+void Ranking::addToListaResultados(Resultado resultado){   //adiciona à lista cada resultado obtido
 	resultados.push_back(resultado);
 }
 
 
 
-vector<Resultado> Ranking::OrdenarPrimeiros(){                         //ordena primeiro e depois pega os 10 primeiros
-	//sort(resultados.begin(), resultados.end());
+vector<Resultado> Ranking::OrdenarPrimeiros(){
+	sort(resultados.begin(), resultados.end());
 	return resultados;
 }
 
-vector<Resultado>  Ranking::OrdenarUltimos(){                          //ordena primeiro e depois pega os 10 últimos
-	//sort(resultados.begin(), resultados.end());
+vector<Resultado>  Ranking::OrdenarUltimos(){
+	sort(resultados.begin(), resultados.end())
+	reverse(resultados.begin(), resultados.end());
 	return resultados;
 }
 

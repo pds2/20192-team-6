@@ -16,7 +16,8 @@ class Ranking{
 		Ranking(vector<Resultado> resultados);
 		
 		
-		void set_resultado(vector<Resultado>  resultados);                      
+		void set_resultado(vector<Resultado>  resultados); 
+		                     
 		void addToListaResultados(Resultado resultado);
 				
 		vector<Resultado> get_lista_resultados();		
