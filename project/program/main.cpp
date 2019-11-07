@@ -34,13 +34,22 @@ int main (void) {
     /*Resultado r = Resultado("Bernardo Nunes", 300000, 26, 10, 2019);    
     repo.salvarResultado(r);*/
 
+    int i = 1;
     int opcaoEscolhida = 0; //Armazena a opção escolhida pelo jogador no menu de opções (1 para começar jogo, 2 para ver regras do jogo e 3 para ver ranking)
+    string nomeJogador;
 
     while(opcaoEscolhida == 0){
+
+        if(i==1){ //Condicional para assegurar que o jogador só digite o seu nome uma vez.
+            cout << "Digite o seu nome: ";
+            cin >> nomeJogador;
+            i++;
+        }
+
         menuOpcoes(); // Escreve o menu na tela
         cin >> opcaoEscolhida;
 
-        if(opcaoEscolhida==2){ // Se opção escolhida = 2, imprime o menu
+        if(opcaoEscolhida==2){ // Se opção escolhida = 2, imprime as regras do jogo.
             system("cls");
             regrasJogo();
             cin >> opcaoEscolhida;//Opção para voltar ao menu
