@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "resultado.h"
 
 using namespace std;
@@ -16,16 +17,19 @@ class Ranking{
 		Ranking(vector<Resultado> resultados);
 		
 		
-		void set_resultado(vector<Resultado>  resultados); 
+		void set_resultados(vector<Resultado>  resultados); 
 		                     
 		void addToListaResultados(Resultado resultado);
 				
-		vector<Resultado> get_lista_resultados();		
+		vector<Resultado> get_lista_resultados();	
 		
-		vector<Resultado> OrdenarPrimeiros();         
+		vector<Resultado> OrdenarPrimeiros();
+		     
 		vector<Resultado> OrdenarUltimos();           
 		
 		vector<Resultado> OrdenarMilhoes();          //ordenando por vitórias
+		
+		vector<Resultado> get_resultados();
 		
 		
 };
