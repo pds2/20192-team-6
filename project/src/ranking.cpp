@@ -16,12 +16,12 @@ void Ranking::addToListaResultados(Resultado resultado){	//adiciona a lista cada
 	resultados.push_back(resultado);
 }
 
-bool ordenacaoDecrescente(Resutado r1, Resultado r2){		//funçao complemetar para ajudar no sort (3º parametro do sort)
-	return r1.getPontuacao() > r2.getPontuacao();
+bool ordenacaoDecrescente(Resultado r1, Resultado r2){		//funçao complemetar para ajudar no sort (3º parametro do sort)
+	return r1.get_pontuacao() > r2.get_pontuacao();
 }
 
-bool ordenacaoCrescente(Resutado r1, Resultado r2){ 		//funçao complemetar para ajudar no sort (3º parametro do sort)
-	return r1.getPontuacao() < r2.getPontuacao();
+bool ordenacaoCrescente(Resultado r1, Resultado r2){ 		//funçao complemetar para ajudar no sort (3º parametro do sort)
+	return r1.get_pontuacao() < r2.get_pontuacao();
 }
 
 vector<Resultado> Ranking::OrdenarPrimeiros(){

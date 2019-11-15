@@ -26,7 +26,7 @@ int main (void) {
     
     // LER PERGUNTAS
     vector<Pergunta> perguntas;
-    perguntas = repo.sortearPerguntas(6);
+    perguntas = repo.sortearPerguntas(10);
     /*cout << perguntas[0].get_pergunta() << endl;
     cout << perguntas[1].get_pergunta() << endl;
     cout << perguntas[2].get_pergunta() << endl;
