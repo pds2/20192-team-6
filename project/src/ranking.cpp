@@ -29,11 +29,18 @@ vector<Resultado> Ranking::OrdenarPrimeiros(){
 	return resultados;
 }
 
+static void Ranking::PrintResultados(vector<Resultado> resultados){
+	for(Resultado &i : resultados){
+		cout << i.get_pontuacao() << " " << i.get_nome << " " << "Data: " << i.get_dia << " " << i.get_mes << "/" << i.get_ano << endl;
+	}
+}
+
 vector<Resultado>  Ranking::OrdenarUltimos(){
 	sort(resultados.begin(), resultados.end(), ordenacaoCrescente);		//ordenacao decrescente, usando a funcao booleana crescente
 	return resultados;
 
 }
+
 
 vector<Resultado>  Ranking::OrdenarMilhoes(){
 	//vector<int> milhoes;
