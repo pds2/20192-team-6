@@ -66,13 +66,18 @@ void Pergunta::remover_alternativa(int i){
 }
 
 bool Pergunta::verificaAcerto(int alternativaEscolhida){
-    if(alternativaEscolhida == get_respostaCorreta())
-        return 1;
-    return 0;
+    return alternativaEscolhida == get_respostaCorreta() + 1;
 }
 
 void Pergunta::mostraAlternativas(){
 
+    cout << pergunta << endl << endl;
+
+    for(int i=0; i<4; i++) {
+        cout << alternativas[i] << endl;
+    }
+
+    cout << endl;
 }
 
 

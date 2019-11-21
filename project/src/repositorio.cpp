@@ -9,7 +9,7 @@
 Repositorio::Repositorio() {
     // Pega caminho do diretorio
     char c[FILENAME_MAX];
-    GetCurrentDir(c, sizeof(c));
+    std::string res = GetCurrentDir(c, sizeof(c));
     string caminhoAtual = c;
 
 
@@ -71,11 +71,21 @@ vector<Pergunta> Repositorio::sortearPerguntas(int numPerguntas) {
     // Array com os nomes dos arquivos
     string nomesArquivos[] = {"faceis.txt", "medias.txt", "dificeis.txt"};
 
-    // Sorteia indexes das perguntas
-    sortearNumerosSemRepeticao(indexPerguntasSorteadas, numPerguntas/3, 3);
+
+    int numSorteadas = numPerguntas / 3;
 
     // Lê perguntas para cada dificuldade
     for (int i=0; i<3; i++) {
+        
+        // Se o número de perguntas nao for multiplo de 3, sorteia mais medias
+        if (i == 1 && numPerguntas % 3 != 0) {
+            numSorteadas = numPerguntas / 3 + (1 + (numPerguntas % 2));
+        }else {
+            numSorteadas = numPerguntas / 3;
+        }
+
+        // Sorteia indexes das perguntas
+        sortearNumerosSemRepeticao(indexPerguntasSorteadas, numSorteadas, 100);
 
         // Abre o arquivo
         ifstream arquivo(caminhoPerguntas + nomesArquivos[i]);
@@ -88,7 +98,7 @@ vector<Pergunta> Repositorio::sortearPerguntas(int numPerguntas) {
             while( getline(arquivo, linha) ) {
 
                 // Verifica se a linha foi sorteada
-                if (buscarIndexValorArray(indexPerguntasSorteadas, numLinhaArquivo, numPerguntas/3) != -1) {
+                if (buscarIndexValorArray(indexPerguntasSorteadas, numLinhaArquivo, numSorteadas) != -1) {
                     // Converte string em pergunta e adiciona na lista
                     perguntas.push_back(stringToPergunta(linha));              
                 }

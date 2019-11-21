@@ -7,26 +7,28 @@
 #include "ajudaCartas.h"
 #include "ajudaConhecido.h"
 #include "ajudaUniversitarios.h"
+#include <time.h>
 
 using namespace std;
 
 void menuOpcoes();
 void regrasJogo();
-void limpaTela();
+int limpaTela();
 int valorPergunta(int);
 void ganhou1milhao();
+tm* getDataAtual();
 
 int main (void) {
 
     setlocale(LC_ALL, ""); // Adiciona caracteres UTF-8
     int jogo = 1;
 
-    // TESTE REPOSITORIO
+    // INSTANCIA REPOSITORIO
     Repositorio repo = Repositorio();
     
-    // LER PERGUNTAS
+    // VETOR COM PERGUNTAS
     vector<Pergunta> perguntas;
-    perguntas = repo.sortearPerguntas(10);
+
     /*cout << perguntas[0].get_pergunta() << endl;
     cout << perguntas[1].get_pergunta() << endl;
     cout << perguntas[2].get_pergunta() << endl;
@@ -40,6 +42,12 @@ int main (void) {
 
     while(jogo>0){ // Loop infinito para o jogador sempre poder voltar ao Menu Principal
     
+        // LÊ PERGUNTAS
+        perguntas = repo.sortearPerguntas(10);
+
+        // INICIALIZA DINHEIRO GANHO
+        int dinheiroGanho = 0;
+        
         limpaTela();
 
         int opcaoEscolhida = 0; // Armazena a opção escolhida pelo jogador no menu de opções (1 para começar jogo, 2 para ver regras do jogo e 3 para ver ranking)
@@ -68,7 +76,6 @@ int main (void) {
             limpaTela();
 
             int alternativaEscolhida = 0;
-            int dinheiroGanho = 0;
 
             // Animação de início de pergunta:
             cout << endl << endl;
@@ -77,37 +84,54 @@ int main (void) {
             limpaTela();
             cout << "Você já tem R$" << valorPergunta(numeroPergunta-1) << ",00" << endl << endl;
 
-            // Escolher Pergunta do arquivo
+            // IMPRIME PERGUNTA
+            perguntas[numeroPergunta].mostraAlternativas();
 
-            cout << "Digite 5 para desistir e sair com R$" << (valorPergunta(numeroPergunta)/2) << ",00" << endl << endl;
+            // MOSTRA AJUDAS
+
+            cout << "Reposta: ";
             cin >> alternativaEscolhida;
             
-            if(alternativaEscolhida==5){
+            if(perguntas[numeroPergunta].verificaAcerto(alternativaEscolhida)){
                 limpaTela();
-                dinheiroGanho = (valorPergunta(numeroPergunta)/2);
-                cout << "Não foi 1 milhão mas é melhor do que nada! Você ganhou R$" << dinheiroGanho << ",00."<< endl;
-                opcaoEscolhida = 2; //opção escolhida diferente de 1 para que saia do loop
-            }
-            else if(Pergunta::verificaAcerto(alternativaEscolhida)){
-                limpaTela();
-                cout << endl << "   PARABÉNS, VOCÊ ACERTOU!" << endl << endl;
-                cout << "Digite 1 para ir para a proxima pergunta: ";
-                cin >> opcaoEscolhida;
-                numeroPergunta++;
-                dinheiroGanho = valorPergunta(numeroPergunta);
+                
+                if (numeroPergunta + 1 == 10) {
+                    limpaTela();
+                    ganhou1milhao();
+                    opcaoEscolhida = 2; // Opção escolhida diferente de 1 para que saia do loop                
+                    dinheiroGanho = valorPergunta(numeroPergunta);
+                }else {
+                    
+                    cout << endl << "   PARABÉNS, VOCÊ ACERTOU!" << endl << endl;
+                    cout << "Digite 1 para ir para a proxima pergunta ou " << endl;
+                    cout << "Digite 2 para desistir e sair com R$" << (valorPergunta(numeroPergunta)/2) << ",00" << endl << endl;
+
+                    cin >> opcaoEscolhida;
+
+                    if(opcaoEscolhida == 2){
+                        limpaTela();
+                        dinheiroGanho = (valorPergunta(numeroPergunta)/2);
+                        cout << "Não foi 1 milhão mas é melhor do que nada! Você ganhou R$" << dinheiroGanho << ",00."<< endl;
+                        opcaoEscolhida = 2; //opção escolhida diferente de 1 para que saia do loop                    
+
+                    }else {
+                        numeroPergunta++;
+                        dinheiroGanho = valorPergunta(numeroPergunta);
+                    }
+                }
+
             }else{
                 cout << "ALTERNATIVA INCORRETA! INFELIZMENTE VOCÊ PERDEU TUDO!" << endl;
                 dinheiroGanho = 0;
                 opcaoEscolhida = 2; //opção escolhida diferente de 1 para que saia do loop
             }
-
-            if(numeroPergunta==10){
-                limpaTela();
-                ganhou1milhao();
-                opcaoEscolhida = 2; // Opção escolhida diferente de 1 para que saia do loop
-            }
-            
         }
+
+        // Salva o resultado do jogo    
+        struct tm *data = getDataAtual();
+        Resultado r(nomeJogador, dinheiroGanho, data->tm_mday, data->tm_mon+1, data->tm_year+1900);
+        repo.salvarResultado(r);
+
         cout << "Digite 1 para voltar ao menu: ";
         cin >> jogo;
 
@@ -162,8 +186,20 @@ int main (void) {
 
 //FUNÇÕES:
 
-void limpaTela(){
-    system("cls");
+tm *getDataAtual() {
+    //variável do tipo time_t para armazenar o tempo em segundos  
+    time_t segundos;
+    
+    //obtendo o tempo em segundos  
+    time(&segundos);   
+    
+    //utilizamos a função localtime para converter de segundos para o tempo local  
+    return localtime(&segundos);  
+}
+
+int limpaTela() {
+    //system("cls");
+    return system("clear");
 }
 
 int valorPergunta(int numeroPergunta){ //Função que retorna o valor em dinheiro da pergunta de acordo com o numero da pergunta.
@@ -195,11 +231,14 @@ int valorPergunta(int numeroPergunta){ //Função que retorna o valor em dinheir
         case 9:
             return 1000000;
             break;
+        default:
+            return 0;
+            break;
     }
 }
 
 void menuOpcoes(){
-    system("cls"); // Limpa tela toda vez que a função menu opções é chamada
+    limpaTela(); // Limpa tela toda vez que a função menu opções é chamada
     cout << "   ________________________________________ "  << endl;
     cout << "  |   __________________________________   |" << endl;
     cout << "  |  _)                                (_  |" << endl;
