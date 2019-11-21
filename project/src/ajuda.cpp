@@ -5,8 +5,12 @@
 using namespace std;
 
 
-Ajuda::Ajuda(Pergunta pergunta){    
+Ajuda::Ajuda(Pergunta *pergunta){    
     this->pergunta = pergunta;
+}
+
+Ajuda::Ajuda(){    
+    this->isUndefined = true;
 }
 
 string Ajuda::get_options(){
@@ -17,6 +21,6 @@ void Ajuda::choose_option(int option){
 
 }
 
-PerguntaComAjuda Ajuda::get_perguntaComAjuda(){
+PerguntaComAjuda* Ajuda::get_perguntaComAjuda(){	
     return this->perguntaComAjuda;
 }

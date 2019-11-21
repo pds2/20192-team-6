@@ -60,13 +60,13 @@ void sortearNumerosSemRepeticao (int *array, unsigned int numSorteados, int alca
  **************************************/
 
 // Número de perguntas precisa ser multiplo de 3, para pegar de todas as dificuldades
-vector<Pergunta> Repositorio::sortearPerguntas(int numPerguntas) {
+vector<Pergunta*> Repositorio::sortearPerguntas(int numPerguntas) {
 
     // Array com os indexes sorteados
     int indexPerguntasSorteadas[numPerguntas];
 
     // Vector que armazena as perguntas sorteadas
-    vector<Pergunta> perguntas;
+    vector<Pergunta*> perguntas;
 
     // Array com os nomes dos arquivos
     string nomesArquivos[] = {"faceis.txt", "medias.txt", "dificeis.txt"};
@@ -118,36 +118,36 @@ vector<Pergunta> Repositorio::sortearPerguntas(int numPerguntas) {
 
 
 // Converte de objeto para string //
-string Repositorio::perguntaToString(Pergunta pergunta) {
+string Repositorio::perguntaToString(Pergunta *pergunta) {
 
     string linha = "";
-    linha += pergunta.get_pergunta() + "****";
-    linha += pergunta.get_alternativa(0)  + "****";
-    linha += pergunta.get_alternativa(1)  + "****";
-    linha += pergunta.get_alternativa(2)  + "****";
-    linha += pergunta.get_alternativa(3)  + "****";
-    linha += pergunta.get_alternativa(3)  + "****";
-    linha += pergunta.get_alternativa(pergunta.get_respostaCorreta())  + "****";
-    linha += to_string(pergunta.get_dificuldade())  + "****";
+    linha += pergunta->get_pergunta() + "****";
+    linha += pergunta->get_alternativa(0)  + "****";
+    linha += pergunta->get_alternativa(1)  + "****";
+    linha += pergunta->get_alternativa(2)  + "****";
+    linha += pergunta->get_alternativa(3)  + "****";
+    linha += pergunta->get_alternativa(3)  + "****";
+    linha += pergunta->get_alternativa(pergunta->get_respostaCorreta())  + "****";
+    linha += to_string(pergunta->get_dificuldade())  + "****";
 
     return linha;
 }
 
 // Converte de string para objeto //
-Pergunta Repositorio::stringToPergunta(string perguntaStr) {
-    Pergunta pergunta = Pergunta();
+Pergunta* Repositorio::stringToPergunta(string perguntaStr) {
+    Pergunta *pergunta = new Pergunta();
     size_t pos = 0;
     stringstream ss;
 
     // LÊ ENUNCIADO
     pos = perguntaStr.find(sequenciaSeparadora);
-    pergunta.set_pergunta(perguntaStr.substr(0, pos));
+    pergunta->set_pergunta(perguntaStr.substr(0, pos));
     perguntaStr.erase(0, pos + sequenciaSeparadora.length());
 
     // LÊ ALTERNATIVAS
     for (int i=0; i<4; i++) {
         pos = perguntaStr.find(sequenciaSeparadora);
-        pergunta.set_alternativa(i, (perguntaStr.substr(0, pos)));
+        pergunta->set_alternativa(i, (perguntaStr.substr(0, pos)));
         perguntaStr.erase(0, pos + sequenciaSeparadora.length());
     }
     
@@ -156,7 +156,7 @@ Pergunta Repositorio::stringToPergunta(string perguntaStr) {
     int resposta = 0;
     ss << perguntaStr.substr(0, pos);  
     ss >> resposta;
-    pergunta.set_respostaCorreta(resposta);
+    pergunta->set_respostaCorreta(resposta);
     perguntaStr.erase(0, pos + sequenciaSeparadora.length());
 
     // LÊ DIFICULDADE
@@ -164,7 +164,7 @@ Pergunta Repositorio::stringToPergunta(string perguntaStr) {
     int dificuldade = 0;
     ss << perguntaStr.substr(0, pos);  
     ss >> dificuldade;
-    pergunta.set_dificuldade(dificuldade);
+    pergunta->set_dificuldade(dificuldade);
     perguntaStr.erase(0, pos + sequenciaSeparadora.length());
 
     return pergunta;

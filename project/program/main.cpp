@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include "repositorio.h"
 #include "perguntaComAjuda.h"
+#include "ajuda.h"
 #include "ajudaCartas.h"
 #include "ajudaConhecido.h"
 #include "ajudaUniversitarios.h"
@@ -16,18 +17,32 @@ void regrasJogo();
 int limpaTela();
 int valorPergunta(int);
 void ganhou1milhao();
+void mostrarAjudas();
 tm* getDataAtual();
+void mostrarPergunta();
+Ajuda* getAjuda(char alternativa, Pergunta *pergunta);
+
+int ajudaCartasRestantes = 1;
+int ajudaConhecidoRestantes = 1;
+int ajudaUniversitariosRestantes = 1;
+int pulosRestantes = 1;
+
+
+int jogo = 1;
+Repositorio repo = Repositorio();
+vector<Pergunta*> perguntas;
+int dinheiroGanho;
+int opcaoEscolhida;
+string nomeJogador;
+int numeroPergunta;
+int qtdAcertos;
+
+bool delay = true;
 
 int main (void) {
 
     setlocale(LC_ALL, ""); // Adiciona caracteres UTF-8
-    int jogo = 1;
-
-    // INSTANCIA REPOSITORIO
-    Repositorio repo = Repositorio();
-    
-    // VETOR COM PERGUNTAS
-    vector<Pergunta> perguntas;
+    jogo = 1;
 
     /*cout << perguntas[0].get_pergunta() << endl;
     cout << perguntas[1].get_pergunta() << endl;
@@ -46,13 +61,13 @@ int main (void) {
         perguntas = repo.sortearPerguntas(10);
 
         // INICIALIZA DINHEIRO GANHO
-        int dinheiroGanho = 0;
+        dinheiroGanho = 0;
         
         limpaTela();
 
-        int opcaoEscolhida = 0; // Armazena a opção escolhida pelo jogador no menu de opções (1 para começar jogo, 2 para ver regras do jogo e 3 para ver ranking)
-        string nomeJogador;
-        int numeroPergunta = 1;
+        opcaoEscolhida = 0; // Armazena a opção escolhida pelo jogador no menu de opções (1 para começar jogo, 2 para ver regras do jogo e 3 para ver ranking)        
+        numeroPergunta = 1;
+        qtdAcertos = 0;
 
         cout << "Digite o seu nome: ";
         cin >> nomeJogador;
@@ -71,60 +86,9 @@ int main (void) {
                 //Imprimir Ranking
             }
         }
+
         while(opcaoEscolhida==1){
-
-            limpaTela();
-
-            int alternativaEscolhida = 0;
-
-            // Animação de início de pergunta:
-            cout << endl << endl;
-            cout << "  V A L E N D O   R$" << valorPergunta(numeroPergunta) << ",00" << endl;
-            sleep(2);
-            limpaTela();
-            cout << "Você já tem R$" << valorPergunta(numeroPergunta-1) << ",00" << endl << endl;
-
-            // IMPRIME PERGUNTA
-            perguntas[numeroPergunta].mostraAlternativas();
-
-            // MOSTRA AJUDAS
-
-            cout << "Reposta: ";
-            cin >> alternativaEscolhida;
-            
-            if(perguntas[numeroPergunta].verificaAcerto(alternativaEscolhida)){
-                limpaTela();
-                
-                if (numeroPergunta + 1 == 10) {
-                    limpaTela();
-                    ganhou1milhao();
-                    opcaoEscolhida = 2; // Opção escolhida diferente de 1 para que saia do loop                
-                    dinheiroGanho = valorPergunta(numeroPergunta);
-                }else {
-                    
-                    cout << endl << "   PARABÉNS, VOCÊ ACERTOU!" << endl << endl;
-                    cout << "Digite 1 para ir para a proxima pergunta ou " << endl;
-                    cout << "Digite 2 para desistir e sair com R$" << (valorPergunta(numeroPergunta)/2) << ",00" << endl << endl;
-
-                    cin >> opcaoEscolhida;
-
-                    if(opcaoEscolhida == 2){
-                        limpaTela();
-                        dinheiroGanho = (valorPergunta(numeroPergunta)/2);
-                        cout << "Não foi 1 milhão mas é melhor do que nada! Você ganhou R$" << dinheiroGanho << ",00."<< endl;
-                        opcaoEscolhida = 2; //opção escolhida diferente de 1 para que saia do loop                    
-
-                    }else {
-                        numeroPergunta++;
-                        dinheiroGanho = valorPergunta(numeroPergunta);
-                    }
-                }
-
-            }else{
-                cout << "ALTERNATIVA INCORRETA! INFELIZMENTE VOCÊ PERDEU TUDO!" << endl;
-                dinheiroGanho = 0;
-                opcaoEscolhida = 2; //opção escolhida diferente de 1 para que saia do loop
-            }
+            mostrarPergunta();            
         }
 
         // Salva o resultado do jogo    
@@ -136,55 +100,97 @@ int main (void) {
         cin >> jogo;
 
     } // Fim while(jogo>0)
-
-    // BUSCAR RESULTADOS
-    /*vector<Resultado> resultados = repo.buscarResultados();
-    for (vector<Resultado>::iterator it = resultados.begin() ; it != resultados.end(); ++it) {
-        cout << it->get_nomePessoa() << endl;
-    }*/
-
-    
-
-    /*AjudaCartas ajudaCartas = AjudaCartas(perguntas[1]);
-    cout << endl << "teste ajuda cartas" << endl;
-    cout << "options: " + ajudaCartas.get_options() << endl;
-    int option;
-    cin >> option;
-    ajudaCartas.choose_option(option);
-    PerguntaComAjuda perguntaComAjuda = ajudaCartas.get_perguntaComAjuda();
-    cout << perguntaComAjuda.get_pergunta() << endl;
-    for(int i = 0; i < 4; i++){
-        cout << perguntaComAjuda.get_alternativa(i) << endl;
-    }
-    cout << perguntaComAjuda.get_ajuda() << endl;*/
-
-    /*cout << endl << endl << "teste ajuda conhecido" << endl;    
-    AjudaConhecido ajudaConhecido = AjudaConhecido(perguntas[1]);
-    cout << "options: " + ajudaConhecido.get_options() << endl;
-    int option;
-    cin >> option;
-    ajudaConhecido.choose_option(option);
-    PerguntaComAjuda perguntaComAjuda = ajudaConhecido.get_perguntaComAjuda();
-    cout << perguntaComAjuda.get_pergunta() << endl;
-    for(int i = 0; i < 4; i++){
-        cout << perguntaComAjuda.get_alternativa(i) << endl;
-    }
-    cout << perguntaComAjuda.get_ajuda() << endl;*/
-
-    cout << endl << endl << "teste ajuda universitarios" << endl;    
-    AjudaUniversitarios ajudaUniversitarios = AjudaUniversitarios(perguntas[1]);
-    PerguntaComAjuda perguntaComAjuda = ajudaUniversitarios.get_perguntaComAjuda();
-    cout << "Pergunta: " << perguntaComAjuda.get_pergunta() << endl;
-    for(int i = 0; i < 4; i++){
-        cout << perguntaComAjuda.get_alternativa(i) << endl;
-    }
-    cout << perguntaComAjuda.get_ajuda() << endl;
-
     
     return 0;
 }
 
 //FUNÇÕES:
+
+void mostrarPergunta(){
+    limpaTela();
+
+    char alternativaEscolhida = '#';
+
+    // Animação de início de pergunta:
+    cout << endl << endl;
+    cout << "  V A L E N D O   R$" << valorPergunta(qtdAcertos) << ",00" << endl;
+    
+    if(delay) sleep(2);
+    else delay = true;
+
+    limpaTela();
+    cout << "Você já tem R$" << valorPergunta(qtdAcertos-1) << ",00" << endl << endl;
+
+    // IMPRIME PERGUNTA
+    perguntas[numeroPergunta]->mostraAlternativas();
+    mostrarAjudas();
+
+    // MOSTRA AJUDAS
+
+    cout << "Reposta: ";
+    cin >> alternativaEscolhida;     
+    alternativaEscolhida = tolower(alternativaEscolhida); 
+
+    if(alternativaEscolhida == 'p'){
+        numeroPergunta++;
+        return;
+    }      
+
+    Ajuda *ajuda = getAjuda(alternativaEscolhida, perguntas[numeroPergunta]);
+    if(!ajuda->isUndefined) {
+        if(ajuda->get_options().compare("") != 0){
+            cout << ajuda->get_options() << endl;
+            int opcaoAjuda = -1;
+            while(1){
+                try{
+                    cin >> opcaoAjuda;
+                    ajuda->choose_option(opcaoAjuda);
+                    break;
+                }catch(exception& e){
+                    cout << "Opção inválida, tente novamente." << endl;
+                }
+            }
+        }
+        perguntas[numeroPergunta] = ajuda->get_perguntaComAjuda();   
+        delay = false;     
+        return;
+    }
+    
+    if(perguntas[numeroPergunta]->verificaAcerto(alternativaEscolhida)){
+        limpaTela();
+        
+        if (qtdAcertos == 10) {
+            limpaTela();
+            ganhou1milhao();
+            opcaoEscolhida = 2; // Opção escolhida diferente de 1 para que saia do loop                
+            dinheiroGanho = valorPergunta(qtdAcertos);
+        }else {
+            
+            cout << endl << "   PARABÉNS, VOCÊ ACERTOU!" << endl << endl;
+            cout << "Digite 1 para ir para a proxima pergunta ou " << endl;
+            cout << "Digite 2 para desistir e sair com R$" << (valorPergunta(qtdAcertos)/2) << ",00" << endl << endl;
+
+            cin >> opcaoEscolhida;
+
+            if(opcaoEscolhida == 2){
+                limpaTela();
+                dinheiroGanho = (valorPergunta(qtdAcertos)/2);
+                cout << "Não foi 1 milhão mas é melhor do que nada! Você ganhou R$" << dinheiroGanho << ",00."<< endl;
+                opcaoEscolhida = 2; //opção escolhida diferente de 1 para que saia do loop                    
+
+            }else {
+                numeroPergunta++;
+                qtdAcertos++;
+                dinheiroGanho = valorPergunta(qtdAcertos);
+            }
+        }
+
+    }else{
+        cout << "ALTERNATIVA INCORRETA! INFELIZMENTE VOCÊ PERDEU TUDO!" << endl;
+        dinheiroGanho = 0;
+        opcaoEscolhida = 2; //opção escolhida diferente de 1 para que saia do loop
+    }
+}
 
 tm *getDataAtual() {
     //variável do tipo time_t para armazenar o tempo em segundos  
@@ -202,8 +208,9 @@ int limpaTela() {
     return system("clear");
 }
 
-int valorPergunta(int numeroPergunta){ //Função que retorna o valor em dinheiro da pergunta de acordo com o numero da pergunta.
-    switch(numeroPergunta){
+int valorPergunta(int qtdAcertos){ //Função que retorna o valor em dinheiro da pergunta de acordo com o numero da pergunta.
+    int qtd = qtdAcertos + 1;
+    switch(qtd){
         case 1:
             return 1000;
             break;
@@ -277,4 +284,36 @@ void ganhou1milhao(){
     cout << "   |  /                                                                      /  " << endl;
     cout << "   | /                                                                      /   " << endl;
     cout << "   |/______________________________________________________________________/    " << endl << endl;;
+}
+
+void mostrarAjudas(){
+    if(ajudaCartasRestantes == 0 && ajudaUniversitariosRestantes == 0 && ajudaConhecidoRestantes == 0 && pulosRestantes == 0) {
+        cout << "** Você já utilizou todas as ajudas disponíveis :(" << endl;
+    }else{
+        cout << "Ajudas restantes: " << endl;
+        if(ajudaCartasRestantes == 1) cout << "'#' para pedir ajuda das cartas" << endl;
+        if(ajudaUniversitariosRestantes == 1) cout << "'*' para pedir ajuda dos universitários" << endl;
+        if(ajudaConhecidoRestantes == 1) cout << "'+' para pedir ajuda de um conhecido" << endl;
+        if(pulosRestantes == 1) cout << "'P' para pular a pergunta" << endl;
+        cout << endl;
+    }
+}
+
+Ajuda* getAjuda(char alternativa, Pergunta *pergunta){
+    switch(alternativa){
+        case '#': 
+            if(ajudaCartasRestantes == 0) throw invalid_argument("Ajuda já foi usada");
+            ajudaCartasRestantes--;
+            return new AjudaCartas(pergunta);
+        case '*': 
+            if(ajudaUniversitariosRestantes == 0) throw invalid_argument("Ajuda já foi usada");
+            ajudaUniversitariosRestantes--;
+            return new AjudaUniversitarios(pergunta);
+        case '+': 
+            if(ajudaConhecidoRestantes == 0) throw invalid_argument("Ajuda já foi usada");
+            ajudaConhecidoRestantes--;
+            return new AjudaConhecido(pergunta);
+
+        default: return new Ajuda();
+    }
 }

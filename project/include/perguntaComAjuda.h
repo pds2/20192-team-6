@@ -11,9 +11,10 @@ class PerguntaComAjuda : public Pergunta {
         string ajuda;
 
     public:                
-        PerguntaComAjuda(Pergunta, string);
+        PerguntaComAjuda(Pergunta*, string);
         PerguntaComAjuda();
-        string get_ajuda();        
+        string get_ajuda();      
+        void mostraAlternativas() override;  
 };
 
 #endif // PERGUNTA_COM_AJUDA_H

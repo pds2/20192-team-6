@@ -9,8 +9,8 @@ class AjudaUniversitarios : public Ajuda {
   
 
     public:
-        AjudaUniversitarios(Pergunta);                
-        virtual PerguntaComAjuda get_perguntaComAjuda() override;
+        AjudaUniversitarios(Pergunta*);                
+        virtual PerguntaComAjuda* get_perguntaComAjuda() override;
 };
 
 

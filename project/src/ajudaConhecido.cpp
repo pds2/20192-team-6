@@ -8,10 +8,10 @@
 using namespace std;
 
 
-AjudaConhecido::AjudaConhecido(Pergunta pergunta) : Ajuda(pergunta){}
+AjudaConhecido::AjudaConhecido(Pergunta *pergunta) : Ajuda(pergunta){}
 
 
-PerguntaComAjuda AjudaConhecido::get_perguntaComAjuda(){	
+PerguntaComAjuda* AjudaConhecido::get_perguntaComAjuda(){	
 	return this->perguntaComAjuda;
 }
 
@@ -39,20 +39,20 @@ void AjudaConhecido::choose_option(int option){
 			conhecido = "do Amigo";
 			break;
 		}
-		default: conhecido = "";
+		default: throw invalid_argument("Opção inválida");
 	}
 
 	int alternativa;
 
 	int correta = (rand() % 4) == 3 ? 0 : 1; //80% de chance de acerto
 	if(correta){
-		alternativa = this->pergunta.get_respostaCorreta();
+		alternativa = this->pergunta->get_respostaCorreta();
 	}else{
 		do{
 			alternativa = rand() % 4;
-		} while(alternativa == this->pergunta.get_respostaCorreta());
+		} while(alternativa == this->pergunta->get_respostaCorreta());
 	}
 
-	this->perguntaComAjuda = PerguntaComAjuda(this->pergunta, "Dica " + conhecido + ": Alternativa " + get_letra(alternativa+1));
+	this->perguntaComAjuda = new PerguntaComAjuda(this->pergunta, "Dica " + conhecido + ": Alternativa " + get_letra(alternativa+1));
 }
 

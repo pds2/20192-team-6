@@ -8,12 +8,15 @@
 using namespace std;
 
 
-AjudaUniversitarios::AjudaUniversitarios(Pergunta pergunta) : Ajuda(pergunta){}
+AjudaUniversitarios::AjudaUniversitarios(Pergunta *pergunta) : Ajuda(pergunta){
+
+}
 
 
-PerguntaComAjuda AjudaUniversitarios::get_perguntaComAjuda(){	
+PerguntaComAjuda* AjudaUniversitarios::get_perguntaComAjuda(){	
 	int *percentual = new int[4];
-	int correta = pergunta.get_respostaCorreta();
+	int correta = pergunta->get_respostaCorreta();
+	
 
 	for(int i = 0; i < 4; i++){		
 		percentual[i] = 0;		
@@ -35,7 +38,7 @@ PerguntaComAjuda AjudaUniversitarios::get_perguntaComAjuda(){
 		ajuda += "\nAlternativa " + get_letra(i+1) + ": " + to_string(percentual[i]) + "%";
 	}
 
-	this->perguntaComAjuda = PerguntaComAjuda(pergunta, "Votos dos universitários: " + ajuda);
+	this->perguntaComAjuda = new PerguntaComAjuda(pergunta, "Votos dos universitários: " + ajuda);
 	return this->perguntaComAjuda;
 }
 

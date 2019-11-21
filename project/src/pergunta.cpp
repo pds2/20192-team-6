@@ -65,8 +65,24 @@ void Pergunta::remover_alternativa(int i){
     this->alternativas[i] = "[Alternativa Eliminada]";
 }
 
-bool Pergunta::verificaAcerto(int alternativaEscolhida){
-    return alternativaEscolhida == get_respostaCorreta() + 1;
+bool Pergunta::verificaAcerto(char alternativaEscolhida){
+    int numeroAlternativaEscolhida;
+    switch(alternativaEscolhida){
+        case 'a': 
+            numeroAlternativaEscolhida = 1;
+            break;
+        case 'b': 
+            numeroAlternativaEscolhida = 2;
+            break;
+        case 'c': 
+            numeroAlternativaEscolhida = 3;
+            break;
+        case 'd': 
+            numeroAlternativaEscolhida = 4;
+            break;
+        default: throw invalid_argument("Alternativa Inválida");
+    }
+    return numeroAlternativaEscolhida == get_respostaCorreta() + 1;
 }
 
 void Pergunta::mostraAlternativas(){

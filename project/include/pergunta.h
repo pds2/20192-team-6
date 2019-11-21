@@ -2,6 +2,7 @@
 #define PERGUNTA_H
 
 using namespace std;
+#include <stdexcept>
 #include <string>       /* string */
 
 class Pergunta{
@@ -35,8 +36,8 @@ class Pergunta{
         bool tem_alternativa(int);
         void remover_alternativa(int);
 
-        bool verificaAcerto(int respostaCorreta);
-        void mostraAlternativas();
+        bool verificaAcerto(char respostaCorreta);
+        virtual void mostraAlternativas();
 
 };
 

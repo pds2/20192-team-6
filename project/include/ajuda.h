@@ -10,15 +10,17 @@ using namespace std;
 class Ajuda {
 
     protected:
-        Pergunta pergunta;  
-        PerguntaComAjuda perguntaComAjuda;
+        Pergunta *pergunta;  
+        PerguntaComAjuda *perguntaComAjuda;
 
     public:
-        Ajuda(Pergunta);        
+    	bool isUndefined = false;
+        Ajuda(Pergunta*);        
+        Ajuda();
 
         virtual string get_options();
         virtual void choose_option(int);
-        virtual PerguntaComAjuda get_perguntaComAjuda();
+        virtual PerguntaComAjuda* get_perguntaComAjuda();
 };
 
 #endif // AJUDA_H

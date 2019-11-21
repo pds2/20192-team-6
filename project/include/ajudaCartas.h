@@ -12,11 +12,11 @@ class AjudaCartas : public Ajuda {
 
 
     public:
-        AjudaCartas(Pergunta);        
+        AjudaCartas(Pergunta*);        
 
         virtual string get_options() override;
         virtual void choose_option(int) override;
-        virtual PerguntaComAjuda get_perguntaComAjuda() override;
+        virtual PerguntaComAjuda* get_perguntaComAjuda() override;
 };
 
 #endif // AJUDA_CARTAS

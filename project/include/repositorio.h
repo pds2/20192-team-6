@@ -36,12 +36,12 @@ class Repositorio{
         Resultado stringToResultado(string);
         
         // Pergunta
-        string perguntaToString(Pergunta);
-        Pergunta stringToPergunta(string);
+        string perguntaToString(Pergunta*);
+        Pergunta* stringToPergunta(string);
 
     public:
         Repositorio(); 
-        vector<Pergunta> sortearPerguntas(int);
+        vector<Pergunta*> sortearPerguntas(int);
         vector<Resultado> buscarResultados();
         void salvarResultado(Resultado);
 };
