@@ -70,7 +70,8 @@ int main (void) {
         
         limpaTela();
 
-        opcaoEscolhida = 0; // Armazena a opção escolhida pelo jogador no menu de opções (1 para começar jogo, 2 para ver regras do jogo e 3 para ver ranking)        
+        opcaoEscolhida = 0; // Armazena a opção escolhida pelo jogador no menu de opções (1 para começar jogo, 2 para ver regras do jogo e 3 para ver ranking)
+        opcaoEscolhidaRanking = 0;      
         numeroPergunta = 1;
         qtdAcertos = 0;
 
@@ -94,10 +95,14 @@ int main (void) {
                 if (opcaoEscolhidaRanking == 1){
                     ranking.OrdenarPrimeiros();
                     ranking.PrintResultados();
+                    cout << "Digite 0 para voltar ao menu: ";
+                    cin >> opcaoEscolhida; //opção para voltar ao menu
                 }
                 else if(opcaoEscolhidaRanking == 2){
                     ranking.OrdenarUltimos();
                     ranking.PrintResultados();
+                    cout << "Digite 0 para voltar ao menu: ";
+                    cin >> opcaoEscolhida;
                 }
                 else if(opcaoEscolhidaRanking == 3){
                     //printar jogadores mais vitoriosos
@@ -284,9 +289,8 @@ void menuRanking(){
     cout << "    MENU DO RANKING:                                     " << endl;
     cout << "    - Digite 1 para ver as melhores pontuações:          " << endl;
     cout << "    - Digite 2 para ver as piores pontuações:            " << endl;
-    cout << "    - Digite 3 para ver os jogadores mais vitoriosos:    " << endl;
+    cout << "    - Digite 3 para ver os jogadores mais vitoriosos:    " << endl << endl;
     sleep(2);
-    cout << "Digite 0 para voltar ao menu: ";
 }
 
 void regrasJogo(){
@@ -294,7 +298,10 @@ void regrasJogo(){
     cout << "  1- O seu objetivo neste jogo é ganhar a máxima quantidade de dinheiro que conseguir, sendo o prêmio maximo de 1 milhão de reais;" << endl;
     cout << "  2- Você vai ganhando dinheiro à medida que vai acertando as perguntas;" << endl;
     cout << "  3- Cada pergunta possui 4 alternativas, sendo apenas uma verdadeira;" << endl;
-    cout << "  4- Você pode pedir ajuda de universitários, de um conhecido ou usar as cartas, mas só pode usar cada tipo de ajuda apenas 1 vez em cada jogo." << endl << endl;
+    cout << "  4- Você pode pedir ajuda de universitários, de um conhecido ou usar as cartas, mas só pode usar cada tipo de ajuda apenas 1 vez em cada jogo." << endl;
+    cout << "   4.1->Ajuda de universitarios: os universitarios presentes no show irao responder a pergunta para voce." << endl;
+    cout << "   4.2->Ajuda de um conhecido: escolha um conhecido, que vai responder a pergunta para voce." << endl;
+    cout << "   4.3->Cartas: escolha uma dentre as 4 cartas. O numero presente sera a quantidade de alternativas que serão eliminadas." << endl << endl;
     sleep(2);
     cout << " BOM JOGO! Digite 0 para voltar ao menu: ";
 }
