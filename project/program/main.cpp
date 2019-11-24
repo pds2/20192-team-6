@@ -65,6 +65,11 @@ int main (void) {
         // LÊ PERGUNTAS
         perguntas = repo.sortearPerguntas(10);
 
+        ajudaCartasRestantes = 1;
+        ajudaConhecidoRestantes = 1;
+        ajudaUniversitariosRestantes = 1;
+        pulosRestantes = 1;
+
         // INICIALIZA DINHEIRO GANHO
         dinheiroGanho = 0;
         
@@ -72,7 +77,7 @@ int main (void) {
 
         opcaoEscolhida = 0; // Armazena a opção escolhida pelo jogador no menu de opções (1 para começar jogo, 2 para ver regras do jogo e 3 para ver ranking)
         opcaoEscolhidaRanking = 0;      
-        numeroPergunta = 1;
+        numeroPergunta = 0;
         qtdAcertos = 0;
 
         cout << "Digite o seu nome: ";
@@ -155,6 +160,8 @@ void mostrarPergunta(){
     alternativaEscolhida = tolower(alternativaEscolhida); 
 
     if(alternativaEscolhida == 'p'){
+        if(pulosRestantes == 0) throw invalid_argument("Pulo já foi usado"); 
+        pulosRestantes--;
         numeroPergunta++;
         return;
     }      
@@ -181,8 +188,10 @@ void mostrarPergunta(){
     
     if(perguntas[numeroPergunta]->verificaAcerto(alternativaEscolhida)){
         limpaTela();
+
+        qtdAcertos++;
         
-        if (qtdAcertos == 10) {
+        if (qtdAcertos == 9) {
             limpaTela();
             ganhou1milhao();
             opcaoEscolhida = 2; // Opção escolhida diferente de 1 para que saia do loop                
@@ -191,19 +200,18 @@ void mostrarPergunta(){
             
             cout << endl << "   PARABÉNS, VOCÊ ACERTOU!" << endl << endl;
             cout << "Digite 1 para ir para a proxima pergunta ou " << endl;
-            cout << "Digite 2 para desistir e sair com R$" << (valorPergunta(qtdAcertos)/2) << ",00" << endl << endl;
+            cout << "Digite 2 para desistir e sair com R$" << (valorPergunta(qtdAcertos-1)/2) << ",00" << endl << endl;
 
             cin >> opcaoEscolhida;
 
             if(opcaoEscolhida == 2){
                 limpaTela();
-                dinheiroGanho = (valorPergunta(qtdAcertos)/2);
+                dinheiroGanho = (valorPergunta(qtdAcertos-1)/2);
                 cout << "Não foi 1 milhão mas é melhor do que nada! Você ganhou R$" << dinheiroGanho << ",00."<< endl;
                 opcaoEscolhida = 2; //opção escolhida diferente de 1 para que saia do loop                    
 
             }else {
-                numeroPergunta++;
-                qtdAcertos++;
+                numeroPergunta++;                
                 dinheiroGanho = valorPergunta(qtdAcertos);
             }
         }
