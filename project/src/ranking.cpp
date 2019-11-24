@@ -16,29 +16,26 @@ void Ranking::addToListaResultados(Resultado resultado){	//adiciona a lista cada
 	resultados.push_back(resultado);
 }
 
-bool ordenacaoDecrescente(Resultado r1, Resultado r2){		//fun�ao complemetar para ajudar no sort (3� parametro do sort)
+bool ordenacaoCrescente(Resultado r1, Resultado r2){		//fun�ao complemetar para ajudar no sort (3� parametro do sort)
 	return r1.get_pontuacao() > r2.get_pontuacao();
 }
 
-bool ordenacaoCrescente(Resultado r1, Resultado r2){ 		//fun�ao complemetar para ajudar no sort (3� parametro do sort)
+bool ordenacaoDecrescente(Resultado r1, Resultado r2){ 		//fun�ao complemetar para ajudar no sort (3� parametro do sort)
 	return r1.get_pontuacao() < r2.get_pontuacao();
 }
 
-vector<Resultado> Ranking::OrdenarPrimeiros(){
-	sort(resultados.begin(), resultados.end(), ordenacaoDecrescente);	//ordenacao crescente, usando a funcao booleana decrescente
-	return resultados;
+void Ranking::OrdenarPrimeiros(){
+	sort(this->resultados.begin(), this->resultados.end(), ordenacaoCrescente);	//ordenacao crescente
 }
 
-void Ranking::PrintResultados(vector<Resultado> resultados){
-	for(Resultado &i : resultados){
-		cout << i.get_pontuacao() << " " << i.get_nomePessoa() << " " << "Data: " << i.get_dia() << " " << i.get_mes() << "/" << i.get_ano() << endl;
+void Ranking::PrintResultados(){
+	for(Resultado &i : this->resultados){
+		cout << i.get_pontuacao() << " " << i.get_nomePessoa() << " \t" << "Data: " << i.get_dia() << " " << i.get_mes() << "/" << i.get_ano() << endl;
 	}
 }
 
-vector<Resultado>  Ranking::OrdenarUltimos(){
-	sort(resultados.begin(), resultados.end(), ordenacaoCrescente);		//ordenacao decrescente, usando a funcao booleana crescente
-	return resultados;
-
+void  Ranking::OrdenarUltimos(){
+	sort(this->resultados.begin(), this->resultados.end(), ordenacaoDecrescente);		//ordenacao decrescente
 }
 
 

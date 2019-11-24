@@ -23,11 +23,11 @@ class Ranking{
 				
 		vector<Resultado> get_lista_resultados();	
 		
-		vector<Resultado> OrdenarPrimeiros();
+		void OrdenarPrimeiros();
 		
-		static void PrintResultados(vector<Resultado>);
+		void PrintResultados();
 		     
-		vector<Resultado> OrdenarUltimos();		
+		void OrdenarUltimos();		
 		
 		vector<Resultado> OrdenarMilhoes();          //ordenando por vit�rias
 		

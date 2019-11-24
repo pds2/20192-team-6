@@ -8,11 +8,13 @@
 #include "ajudaCartas.h"
 #include "ajudaConhecido.h"
 #include "ajudaUniversitarios.h"
+#include "ranking.h"
 #include <time.h>
 
 using namespace std;
 
 void menuOpcoes();
+void menuRanking();
 void regrasJogo();
 int limpaTela();
 int valorPergunta(int);
@@ -31,8 +33,11 @@ int pulosRestantes = 1;
 int jogo = 1;
 Repositorio repo = Repositorio();
 vector<Pergunta*> perguntas;
+vector<Resultado> resultados = repo.buscarResultados();
+Ranking ranking = Ranking(resultados);
 int dinheiroGanho;
 int opcaoEscolhida;
+int opcaoEscolhidaRanking;
 string nomeJogador;
 int numeroPergunta;
 int qtdAcertos;
@@ -83,7 +88,20 @@ int main (void) {
                 cin >> opcaoEscolhida; // Opção para voltar ao menu
             }
             else if(opcaoEscolhida==3){
-                //Imprimir Ranking
+                limpaTela();
+                menuRanking();
+                cin >> opcaoEscolhidaRanking;
+                if (opcaoEscolhidaRanking == 1){
+                    ranking.OrdenarPrimeiros();
+                    ranking.PrintResultados();
+                }
+                else if(opcaoEscolhidaRanking == 2){
+                    ranking.OrdenarUltimos();
+                    ranking.PrintResultados();
+                }
+                else if(opcaoEscolhidaRanking == 3){
+                    //printar jogadores mais vitoriosos
+                }
             }
         }
 
@@ -260,6 +278,15 @@ void menuOpcoes(){
     cout << "    - Digite 2 para ver Regras do Jogo        " << endl;
     cout << "    - Digite 3 para ver Ranking               " << endl << endl;
     cout << "Resposta: ";
+}
+
+void menuRanking(){
+    cout << "    MENU DO RANKING:                                     " << endl;
+    cout << "    - Digite 1 para ver as melhores pontuações:          " << endl;
+    cout << "    - Digite 2 para ver as piores pontuações:            " << endl;
+    cout << "    - Digite 3 para ver os jogadores mais vitoriosos:    " << endl;
+    sleep(2);
+    cout << "Digite 0 para voltar ao menu: ";
 }
 
 void regrasJogo(){
