@@ -38,12 +38,31 @@ void  Ranking::OrdenarUltimos(){
 	sort(this->resultados.begin(), this->resultados.end(), ordenacaoDecrescente);		//ordenacao decrescente
 }
 
+bool ordenarMap(pair<string, int> elem1 ,pair<string, int> elem2){
+	return elem1.second > elem2.second;
+	};
 
-vector<Resultado>  Ranking::OrdenarMilhoes(){
-	//vector<int> milhoes;
-	//if (resultado == 1000000) contador++;               //se o resultado for 1milh�o, adiciona 1 no contador daquele jogador, s� que ainda n�o sei como isso vai ser feito
-	return resultados;
-}
+
+
+void Ranking::OrdenarMilhoes(){
+	map <string, int> vencedores;
+	typedef function <bool(pair<string, int>, pair<string, int>)> Comparator;
+	Comparator compFunction = ordenarMap;
+
+	for(Resultado &i : this->resultados){
+		if (i.get_pontuacao() == 1000000){
+			vencedores[i.get_nomePessoa()]++;
+		}
+	}
+
+	set<pair<string, int>, Comparator> vencedoresOrdenados(
+		vencedores.begin(), vencedores.end(), compFunction);
+
+	for (pair<string, int> element : vencedoresOrdenados){
+		cout << element.first << " :: " << element.second << " Vitorias" << endl;
+	}
+
+} 
 
 vector<Resultado> Ranking::get_resultados(){
 	return this->resultados;

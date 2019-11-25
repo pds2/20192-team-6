@@ -3,7 +3,12 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
+#include <set>
+#include <functional>
+#include <utility>
 #include <algorithm>
+#include <string>
 #include "resultado.h"
 
 using namespace std;
@@ -29,7 +34,7 @@ class Ranking{
 		     
 		void OrdenarUltimos();		
 		
-		vector<Resultado> OrdenarMilhoes();          //ordenando por vit�rias
+		void OrdenarMilhoes();          //ordenando por vit�rias
 		
 		vector<Resultado> get_resultados();
 		

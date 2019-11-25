@@ -110,7 +110,10 @@ int main (void) {
                     cin >> opcaoEscolhida;
                 }
                 else if(opcaoEscolhidaRanking == 3){
-                    //printar jogadores mais vitoriosos
+                    limpaTela();
+                    ranking.OrdenarMilhoes();
+                    cout << "Digite 0 para voltar ao menu: ";
+                    cin >> opcaoEscolhida;
                 }
             }
         }
