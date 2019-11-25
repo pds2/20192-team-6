@@ -248,28 +248,32 @@ Resultado Repositorio::stringToResultado(string resultadoStr) {
     pos = resultadoStr.find(sequenciaSeparadora);
     float pontuacao = 0;
     ss << resultadoStr.substr(0, pos);  
-    ss >> pontuacao;    
+    ss >> pontuacao;   
+    ss.clear();
     resultadoStr.erase(0, pos + sequenciaSeparadora.length());
     
     // LÊ DIA
     pos = resultadoStr.find(sequenciaSeparadora);
     int dia = 0;
     ss << resultadoStr.substr(0, pos);  
-    ss >> dia;    
+    ss >> dia;
+    ss.clear();
     resultadoStr.erase(0, pos + sequenciaSeparadora.length());
 
     // LÊ MÊS
     pos = resultadoStr.find(sequenciaSeparadora);
     int mes = 0;
     ss << resultadoStr.substr(0, pos);  
-    ss >> mes;    
+    ss >> mes;
+    ss.clear();   
     resultadoStr.erase(0, pos + sequenciaSeparadora.length());
     
     // LÊ ANO
     pos = resultadoStr.find(sequenciaSeparadora);
     int ano = 0;
     ss << resultadoStr.substr(0, pos);  
-    ss >> ano;    
+    ss >> ano;
+    ss.clear();   
     resultadoStr.erase(0, pos + sequenciaSeparadora.length());
 
     Resultado resultado = Resultado(nomePessoa, pontuacao, dia, mes, ano);

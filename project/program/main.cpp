@@ -23,6 +23,7 @@ void mostrarAjudas();
 tm* getDataAtual();
 void mostrarPergunta();
 Ajuda* getAjuda(char alternativa, Pergunta *pergunta);
+void tratamentoEntradaInvalida();
 
 int ajudaCartasRestantes = 1;
 int ajudaConhecidoRestantes = 1;
@@ -49,17 +50,6 @@ int main (void) {
     setlocale(LC_ALL, ""); // Adiciona caracteres UTF-8
     jogo = 1;
 
-    /*cout << perguntas[0].get_pergunta() << endl;
-    cout << perguntas[1].get_pergunta() << endl;
-    cout << perguntas[2].get_pergunta() << endl;
-    cout << perguntas[3].get_pergunta() << endl;
-    cout << perguntas[4].get_pergunta() << endl;
-    cout << perguntas[5].get_pergunta() << endl;*/
-
-    // SALVAR RESULTADO
-    /*Resultado r = Resultado("Bernardo Nunes", 300000, 26, 10, 2019);    
-    repo.salvarResultado(r);*/
-
     while(jogo>0){ // Loop infinito para o jogador sempre poder voltar ao Menu Principal
     
         // LÊ PERGUNTAS
@@ -81,33 +71,53 @@ int main (void) {
         qtdAcertos = 0;
 
         cout << "Digite o seu nome: ";
+        cin.exceptions(istream::failbit);
         cin >> nomeJogador;
 
         while(opcaoEscolhida == 0){
-
             menuOpcoes(); // Escreve o menu na tela
-            cin >> opcaoEscolhida;
+
+            try {
+                cin >> opcaoEscolhida;
+            } catch (const ios::failure &) {
+                tratamentoEntradaInvalida();
+                opcaoEscolhida = 0;
+            }
 
             if(opcaoEscolhida==2){ // Se opção escolhida = 2, imprime as regras do jogo.
                 limpaTela();
                 regrasJogo();
-                cin >> opcaoEscolhida; // Opção para voltar ao menu
+
+                try {
+                    cin >> opcaoEscolhida;
+                } catch (const ios::failure &) {
+                    tratamentoEntradaInvalida();
+                    opcaoEscolhida = 0;
+                }
             }
             else if(opcaoEscolhida==3){
                 limpaTela();
                 menuRanking();
-                cin >> opcaoEscolhidaRanking;
+                try {
+                    cin >> opcaoEscolhidaRanking;
+                } catch (const ios::failure &) {
+                    tratamentoEntradaInvalida();
+                    opcaoEscolhida = 0;
+                }
+
                 if (opcaoEscolhidaRanking == 1){
                     ranking.OrdenarPrimeiros();
                     ranking.PrintResultados();
-                    cout << "Digite 0 para voltar ao menu: ";
-                    cin >> opcaoEscolhida; //opção para voltar ao menu
+                    cout << "Digite enter para voltar ao menu: ";
+                    cin.get();
+                    opcaoEscolhida = 0;
                 }
                 else if(opcaoEscolhidaRanking == 2){
                     ranking.OrdenarUltimos();
                     ranking.PrintResultados();
-                    cout << "Digite 0 para voltar ao menu: ";
-                    cin >> opcaoEscolhida;
+                    cout << "Digite enter para voltar ao menu: ";
+                    cin.get();
+                    opcaoEscolhida = 0;
                 }
                 else if(opcaoEscolhidaRanking == 3){
                     //printar jogadores mais vitoriosos
@@ -116,17 +126,34 @@ int main (void) {
         }
 
         while(opcaoEscolhida==1){
-            mostrarPergunta();            
+            try {
+                mostrarPergunta();
+            } catch (const invalid_argument& e) {
+                cout << e.what() << endl;
+                cout << "Aperte enter para continuar" << endl;
+                cin.get();
+                cin.get();
+            } catch (const ios::failure &) {
+                cin.clear();
+                tratamentoEntradaInvalida();
+                opcaoEscolhida = 1;
+            }
         }
 
         // Salva o resultado do jogo    
         struct tm *data = getDataAtual();
         Resultado r(nomeJogador, dinheiroGanho, data->tm_mday, data->tm_mon+1, data->tm_year+1900);
         repo.salvarResultado(r);
+        ranking.addToListaResultados(r);
 
-        cout << "Digite 1 para voltar ao menu: ";
-        cin >> jogo;
-
+        cout << "Digite 1 para voltar ao menu ou 0 para sair do jogo: ";
+        try {
+            cin >> jogo;
+        
+        } catch (const ios::failure &) {
+            tratamentoEntradaInvalida();
+            jogo = 0;
+        }
     } // Fim while(jogo>0)
     
     return 0;
@@ -147,7 +174,7 @@ void mostrarPergunta(){
     else delay = true;
 
     limpaTela();
-    cout << "Você já tem R$" << valorPergunta(qtdAcertos-1) << ",00" << endl << endl;
+    cout << "Você já tem R$" << dinheiroGanho << ",00" << endl << endl;
 
     // IMPRIME PERGUNTA
     perguntas[numeroPergunta]->mostraAlternativas();
@@ -195,14 +222,20 @@ void mostrarPergunta(){
             limpaTela();
             ganhou1milhao();
             opcaoEscolhida = 2; // Opção escolhida diferente de 1 para que saia do loop                
-            dinheiroGanho = valorPergunta(qtdAcertos);
+            dinheiroGanho = valorPergunta(qtdAcertos-1);
         }else {
             
             cout << endl << "   PARABÉNS, VOCÊ ACERTOU!" << endl << endl;
             cout << "Digite 1 para ir para a proxima pergunta ou " << endl;
             cout << "Digite 2 para desistir e sair com R$" << (valorPergunta(qtdAcertos-1)/2) << ",00" << endl << endl;
 
-            cin >> opcaoEscolhida;
+            try {
+                cin >> opcaoEscolhida;
+                if (opcaoEscolhida != 1 && opcaoEscolhida != 2) throw ios::failure("Opção inválida");
+            } catch (const ios::failure &) {
+                tratamentoEntradaInvalida();
+                opcaoEscolhida = 1;
+            }
 
             if(opcaoEscolhida == 2){
                 limpaTela();
@@ -212,7 +245,7 @@ void mostrarPergunta(){
 
             }else {
                 numeroPergunta++;                
-                dinheiroGanho = valorPergunta(qtdAcertos);
+                dinheiroGanho = valorPergunta(qtdAcertos-1);
             }
         }
 
@@ -358,4 +391,13 @@ Ajuda* getAjuda(char alternativa, Pergunta *pergunta){
 
         default: return new Ajuda();
     }
+}
+
+void tratamentoEntradaInvalida() {
+    cout << "Ocorreu um erro, verifique o valor digitado" << endl;
+    cout << "Aperte enter para continuar" << endl;
+    cin.clear();
+    cin.get();
+    cin.get();
+    cin.get();
 }
