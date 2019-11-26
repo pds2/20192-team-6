@@ -110,12 +110,14 @@ int main (void) {
                     ranking.PrintResultados();
                     cout << "Digite enter para voltar ao menu: ";
                     cin.get();
+                    cin.get();
                     opcaoEscolhida = 0;
                 }
                 else if(opcaoEscolhidaRanking == 2){
                     ranking.OrdenarUltimos();
                     ranking.PrintResultados();
                     cout << "Digite enter para voltar ao menu: ";
+                    cin.get();
                     cin.get();
                     opcaoEscolhida = 0;
                 }

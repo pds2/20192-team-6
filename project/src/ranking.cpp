@@ -30,7 +30,7 @@ void Ranking::OrdenarPrimeiros(){
 
 void Ranking::PrintResultados(){
 	for(Resultado &i : this->resultados){
-		cout << i.get_pontuacao() << " " << i.get_nomePessoa() << " \t" << "Data: " << i.get_dia() << " " << i.get_mes() << "/" << i.get_ano() << endl;
+		cout << i.get_pontuacao() << " " << i.get_nomePessoa() << " \t" << "Data: " << i.get_dia() << "/" << i.get_mes() << "/" << i.get_ano() << endl;
 	}
 }
 
