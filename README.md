@@ -58,7 +58,28 @@ Funções:
 - Resultado::get_pontuacao() - função inteira para armazenar a pontuação da pessoa
 - Resultado::get_dia, Resultado::get_mes, Resultado::get_ano - retornam a data daquele resultado
 
+
 6. Repositório
+
+Repositório é a classe responsável por gerenciar os arquivos de texto que armazenam as perguntas e resutlados. Ele possui apenas três métodos públicos e alguns outros auxiliares.
+  Os arquivos que a classe gerencia são:
+  resources/perguntas/faceis.txt
+  resources/perguntas/medias.txt
+  resources/perguntas/dificeis.txt  
+  resources/perguntas/resultados.txt
+
+Os métodos da classe são:
+- vector<Pergunta*> sortearPerguntas(int) - Sorteia as perguntas do jogo a partir do número de perguntas passado por parâmetro, já fazendo a divisão por dificuldade
+- vector<Resultado> buscarResultados() - Retorna todos os resultados salvos no arquivo resultados.txt
+- void salvarResultado(Resultado) - Salva um  novo resultado no arquivo resultados.txt
+- private string resultadoToString(Resultado) - Converte um objeto do tipo resultado em string, para salvar no arquivo de texto
+- private Resultado stringToResultado(string) - Cria um objeto do tipo Resultado a partir de uma string lida do arquivo resultados.txt
+- private Pergunta stringToPergunta(string) - Cria um objeto do tipo Pergunta a partir de uma string lida dos arquivo da pasta resources/perguntas/
+
+A classe também possui três atributos, são eles:
+- string caminhoPerguntas - Indica o caminho para a pasta onde ficam salvas as perguntas
+- string caminhoResultados - Indica o caminho para a pasta onde ficam salvas as perguntas
+- string sequenciaSeparadora - É utilizado para definir a separação entre os atributos durante a conversão de string para objeto e vice-versa.
 
 
 7. Rankings
