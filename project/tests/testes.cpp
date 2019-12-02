@@ -1,57 +1,120 @@
 #include "doctest.h"
 
-#include "package.h"
-#include "twodaypackage.h"
-#include "overnightpackage.h"
+#include "ajuda.h"
+#include "ajudaCartas.h"
+#include "ajudaUniversitarios.h"
+#include "ajudaConhecido.h"
+#include "pergunta.h"
+
 
 #include <string.h>
 #include <iostream>
 
-TEST_CASE("01 - Testando o construtor com parâmetros corretos de peso e custo por quilo") {
-    CHECK_NOTHROW(Package(2,5, "Carlos", "Alfeneiros")); //construtor com formato (peso, custo_por_quilo, nome, endereço)
+TEST_CASE("01 - Testando Ajuda Default") {
+    string *alternativas = new string[4];
+    alternativas[0] = "altA";
+    alternativas[1] = "altB";
+    alternativas[2] = "altC";
+    alternativas[3] = "altD";
+    Pergunta *p = new Pergunta("pergunta", alternativas, 1, 1);
+    Ajuda ajuda(p);
+    CHECK(ajuda.get_options().compare("") == 0);
+    Ajuda ajudaUndefined;
+    CHECK(ajudaUndefined.isUndefined);
 }
 
-TEST_CASE("02 - Testando construtor com valores inválidos -> deve gerar uma exceção") {
-    Package p(-1,5, "Carlos", "Alfeneiros");
-    CHECK(p.get_peso() > 1000); //atribuir um número negativo a um unsigned int vai gerar um valor absurdo como resposta
+TEST_CASE("02 - Testando Ajuda Cartas") {
+    string *alternativas = new string[4];
+    alternativas[0] = "altA";
+    alternativas[1] = "altB";
+    alternativas[2] = "altC";
+    alternativas[3] = "altD";
+    Pergunta *p = new Pergunta("pergunta", alternativas, 1, 1);
+    AjudaCartas ajudaCartas(p);
+    CHECK(ajudaCartas.get_options().compare("Existem 4 cartas na mesa, para virar uma digite um número de 1 a 4") == 0);
+    CHECK_THROWS(ajudaCartas.choose_option(0));
+    CHECK_THROWS(ajudaCartas.choose_option(5));
+
+    ajudaCartas.choose_option(2);
+    PerguntaComAjuda* perguntaComAjuda = ajudaCartas.get_perguntaComAjuda();
+
+    int eliminadas = 0;
+    for(int i = 0; i < 4; i++){
+        string alt = perguntaComAjuda->get_alternativa(i);
+        if (alt.find("[Alternativa Eliminada]") != std::string::npos) {
+            eliminadas ++;
+        }
+    }
+    CHECK(eliminadas >= 1);
+    CHECK(eliminadas <= 3);
 }
 
-TEST_CASE("03 - Testando a função para cálculo do custo de envio") {
-    Package pacote(2,3, "Carlos", "Bahia");
-    CHECK(pacote.calculate_cost() == 6);
+TEST_CASE("02 - Testando Ajuda Cartas") {
+    string *alternativas = new string[4];
+    alternativas[0] = "altA";
+    alternativas[1] = "altB";
+    alternativas[2] = "altC";
+    alternativas[3] = "altD";
+    Pergunta *p = new Pergunta("pergunta", alternativas, 1, 1);
+    AjudaCartas ajudaCartas(p);
+    CHECK(ajudaCartas.get_options().compare("Existem 4 cartas na mesa, para virar uma digite um número de 1 a 4") == 0);
+    CHECK_THROWS(ajudaCartas.choose_option(0));
+    CHECK_THROWS(ajudaCartas.choose_option(5));
+
+    ajudaCartas.choose_option(2);
+    PerguntaComAjuda* perguntaComAjuda = ajudaCartas.get_perguntaComAjuda();
+
+    int eliminadas = 0;
+    for(int i = 0; i < 4; i++){
+        string alt = perguntaComAjuda->get_alternativa(i);
+        if (alt.find("[Alternativa Eliminada]") != std::string::npos) {
+            eliminadas ++;
+        }
+    }
+    CHECK(eliminadas >= 1);
+    CHECK(eliminadas <= 3);
 }
 
-TEST_CASE("04 - Testando construtor da classe derivada (TwoDayPackage)") {
-    TwoDayPackage pacote = TwoDayPackage(2, 7, 3, "Josias", "Manaus"); //construtor do tipo: (peso, custo_por_quilo, taxa_de_envio, nome, endereço)
-    CHECK(pacote.calculate_cost() == 17);
+TEST_CASE("03 - Testando Ajuda Universitários") {
+    string *alternativas = new string[4];
+    alternativas[0] = "altA";
+    alternativas[1] = "altB";
+    alternativas[2] = "altC";
+    alternativas[3] = "altD";
+    Pergunta *p = new Pergunta("pergunta", alternativas, 1, 1);
+    AjudaUniversitarios ajudaUniversitarios(p);
+    CHECK(ajudaUniversitarios.get_options().compare("") == 0);
+
+    PerguntaComAjuda* perguntaComAjuda = ajudaUniversitarios.get_perguntaComAjuda();
+    CHECK(perguntaComAjuda->get_ajuda().find("Votos dos universitários:") != std::string::npos);
 }
 
-TEST_CASE("05 - Testando herança e reescrita do método para cálculo de custo (TwoDayPackage)") {
-    Package *pacote = new TwoDayPackage(2, 7, 7, "Josias", "Sampa");
-    CHECK(pacote->calculate_cost() == 21);
-    delete pacote;
-}
+TEST_CASE("04 - Testando Ajuda Conhecido") {
+    string *alternativas = new string[4];
+    alternativas[0] = "altA";
+    alternativas[1] = "altB";
+    alternativas[2] = "altC";
+    alternativas[3] = "altD";
+    Pergunta *p = new Pergunta("pergunta", alternativas, 1, 1);
+    AjudaConhecido ajudaConhecido(p);
+    CHECK(ajudaConhecido.get_options().compare("1- Ajuda do Irmão\n2- Ajuda do Pai\n3- Ajuda da Mãe\n4- Ajuda do Amigo") == 0);
 
-TEST_CASE("06 - Testando construtor da classe derivada (OverNightPackage)") {
-    OverNightPackage pacote = OverNightPackage(2, 5, 2, "Maria", "Rio"); //construtor do tipo: (peso, custo_por_quilo, taxa_adicional_por_quilo, nome, endereço)
-    CHECK(pacote.calculate_cost() == 14);
-}
+    CHECK_THROWS(ajudaConhecido.choose_option(0));
+    CHECK_THROWS(ajudaConhecido.choose_option(5));
 
-TEST_CASE("07 - Testando herança e reescrita do método para cálculo de custo (OverNightPackage)") {
-    Package *pacote = new OverNightPackage(2, 5, 2, "Maria", "Rio"); //construtor do tipo: (peso, custo_por_quilo, taxa_adicional_por_quilo, nome, endereço)
-    CHECK(pacote->calculate_cost() == 14);
-    delete pacote;
-}
+    ajudaConhecido.choose_option(1);
+    PerguntaComAjuda* perguntaComAjuda = ajudaConhecido.get_perguntaComAjuda();
+    CHECK(perguntaComAjuda->get_ajuda().find("do Irmão") != std::string::npos);
 
-TEST_CASE("08 - Checando o acesso aos atributos da classe base pela classe derivada") {
-    Package *pacoteON = new OverNightPackage(2, 5, 7, "Maria", "Rio");
-    CHECK(pacoteON->get_peso() == 2);
-    CHECK(pacoteON->get_custo_por_quilo() == 5);
+    ajudaConhecido.choose_option(2);
+    perguntaComAjuda = ajudaConhecido.get_perguntaComAjuda();
+    CHECK(perguntaComAjuda->get_ajuda().find("do Pai") != std::string::npos);
 
-    Package *pacoteTD = new TwoDayPackage(12, 4, 2, "Paulo", "Juazeiro");
-    CHECK(pacoteTD->get_peso() == 12);
-    CHECK(pacoteTD->get_custo_por_quilo() == 4);
-    
-    delete pacoteON;
-    delete pacoteTD;
+    ajudaConhecido.choose_option(3);
+    perguntaComAjuda = ajudaConhecido.get_perguntaComAjuda();
+    CHECK(perguntaComAjuda->get_ajuda().find("da Mãe") != std::string::npos);
+
+    ajudaConhecido.choose_option(4);
+    perguntaComAjuda = ajudaConhecido.get_perguntaComAjuda();
+    CHECK(perguntaComAjuda->get_ajuda().find("do Amigo") != std::string::npos);
 }
