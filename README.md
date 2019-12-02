@@ -13,18 +13,37 @@ Projeto desenvolvido pelos alunos:
 
 ## Documentação
 
-O projeto Show do milhão foi desenvolvido com o intuito de explorar e colocar em prática os conhecimentos obtidos na disciplina Programação de Desenvolvimento de Software 2 (PDS2), no curso de Sistemas de Informação na UFMG. Dentre os vários conteúdos aplicados neste projeto, o foco foi na orientação à objetos, principalmente nos conceitos de herança, encapsulamento, poliformismo, entre outros.
+O projeto Show do milhão foi desenvolvido com o intuito de explorar e colocar em prática os conhecimentos obtidos na disciplina Programação e Desenvolvimento de Software 2 (PDS2), no curso de Sistemas de Informação na UFMG. Dentre os vários conteúdos aplicados neste projeto, o foco foi na orientação à objetos, principalmente nos conceitos de herança, encapsulamento, poliformismo, entre outros.
 
 O projeto foi realizado no segundo semestre de 2019.
 Os desenvolvedores do projeto tiveram forte inspiração no show de TV da SBT chamado "Show do milhão". Inclusive, todas as perguntas contidas neste jogo foram retiradas de lá, todos os créditos das perguntas pertencem à SBT. 
 
 1. Fluxo Principal
-
+O fluxo principal é responsável por todo o funcionamento do jogo, e se encontra no arquivo main.
+- while(jogo>0) - loop infinito para o jogador sempre poder voltar para o menu principal quando perder, desistir ou se ganhar 1 milhão
+- while(opcaoEscolhida == 0) - escreve o menu na tela com as opções(1 para iniciar jogo, 2 para mostrar regras do jogo e 3 para mostrar ranking)
+- while(opcaoEscolhida==1) - inicia novo jogo, mostra perguntas
+Funções:
+- void mostrarPergunta() - imprime as perguntas de um arquivo externo e mostra ajudas
+- int valorPergunta(int qtdAcertos) - função que retorna o valor em dinheiro de cada pergunta de acordo com o numero da pergunta(valores pré-estabelecidos)
+- void menuOpcoes() - mostra o menu principal
+- void menuRanking() - mostra o menu do ranking
+- void regrasJogo() - mostra as regras do jogo
+- void ganhou1milhao() - animação para quando o jogador ganha 1 milhão
+- void mostrarAjudas() - mostra ajuda escolhida pelo jogador ou imprime que não é possivel usar ajudas caso já tenha usado todas
+- Ajuda* getAjuda(char, Pergunta) - retorna o tipo de ajuda de acordo com a ajuda escolhida pelo jogador
 
 2. Perguntas
 
 
 3. Classe Pergunta
+- Pergunta() - Construtor vazio que inicializa a variável alternativas como um vetor de strings
+- Pergunta(string, string*, int, int) - inicializa pergunta, respostaCorreta, dificuldade e alternativas
+- Pergunta::get_respostaCorreta() - função que retorna um inteiro referente à resposta correta
+- Pergunta::get_dificuldade() - função que retorna um inteiro referente à dificuldade da pergunta
+- Pergunta::string get_pergunta() - função que retorna a pergunta
+- Pergunta::verificaAcerto(char respostaCorreta) - retorna verdadeiro ou falso para a alternativa marcada pelo jogador
+- Pergunta::mostraAlternativas() - retorna as alternativas
 
 4. Classe PerguntaComAjuda
 - PerguntaComAjuda(Pergunta \*pergunta, string ajuda) - O objeto é construído com uma instância de Pergunta e uma string, que é a ajuda que alguma classe Ajuda retornou
@@ -34,6 +53,10 @@ Os desenvolvedores do projeto tiveram forte inspiração no show de TV da SBT ch
 
 5. Resultados
 
+5.1. Classe Resultado
+- Resultado::get_nomePessoa() - função string que contém o nome da pessoa respectivo àquele resultado
+- Resultado::get_pontuacao() - função inteira para armazenar a pontuação da pessoa
+- Resultado::get_dia, Resultado::get_mes, Resultado::get_ano - retornam a data daquele resultado
 
 6. Repositório
 
