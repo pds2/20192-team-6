@@ -5,8 +5,9 @@
 #include "ajudaUniversitarios.h"
 #include "ajudaConhecido.h"
 #include "pergunta.h"
+#include "repositorio.h"
 
-
+#include <typeinfo>
 #include <string.h>
 #include <iostream>
 
@@ -117,4 +118,60 @@ TEST_CASE("04 - Testando Ajuda Conhecido") {
     ajudaConhecido.choose_option(4);
     perguntaComAjuda = ajudaConhecido.get_perguntaComAjuda();
     CHECK(perguntaComAjuda->get_ajuda().find("do Amigo") != std::string::npos);
+}
+
+TEST_CASE("05 - Testando sorteio de perguntas") {
+    
+    vector<Pergunta *> perguntas = Repositorio().sortearPerguntas(5);
+    
+    CHECK(perguntas.size() == 5);
+
+    // TESTA SE DIFICULDADE ESTÁ ORDENADA
+    CHECK(perguntas[0]->get_dificuldade() == 1);
+    CHECK(perguntas[1]->get_dificuldade() == 2);
+    CHECK(perguntas[2]->get_dificuldade() == 2);
+    CHECK(perguntas[3]->get_dificuldade() == 2);
+    CHECK(perguntas[4]->get_dificuldade() == 3);
+
+    // TESTA COM NUMERO MULTIPLO DE 3
+    perguntas = Repositorio().sortearPerguntas(3);
+    CHECK(perguntas.size() == 3);
+    CHECK(perguntas[0]->get_dificuldade() == 1);
+    CHECK(perguntas[1]->get_dificuldade() == 2);
+    CHECK(perguntas[2]->get_dificuldade() == 3);
+
+    // TESTA SE A ALTERNATIVAS FORAM SORTEADAS DE FORMA CORRETA
+    string *alternativas = perguntas[0]->get_alternativas();
+    CHECK(alternativas[0].compare(perguntas[0]->get_alternativa(0)) == 0);
+    CHECK(alternativas[1].compare(perguntas[0]->get_alternativa(1)) == 0);
+    CHECK(alternativas[2].compare(perguntas[0]->get_alternativa(2)) == 0);
+    CHECK(alternativas[3].compare(perguntas[0]->get_alternativa(3)) == 0);
+
+    // TESTA SE OS ATRIBUTOS SAO VALIDOS
+    CHECK(typeid(perguntas[0]->get_pergunta()) == typeid(string));
+    CHECK(typeid(perguntas[0]->get_respostaCorreta()) == typeid(int));
+
+}
+
+
+TEST_CASE("06 - Testando busca e salvamento resultado") {
+    
+    Repositorio repositorio = Repositorio();
+    int numResultados = repositorio.buscarResultados().size();
+
+    Resultado r = Resultado("teste", 0, 12, 12, 2019);
+    repositorio.salvarResultado(r);
+
+    vector<Resultado> resultados = repositorio.buscarResultados();
+
+    // TESTA SE NUMERO DE RESULTADOS ATUALIZOU
+    CHECK(resultados.size() == numResultados + 1);
+
+    // TESTA SE O ULTIMO RESULTADO É IGUAL AO RESULTADO SALVO
+    CHECK(resultados[numResultados].get_nomePessoa().compare(r.get_nomePessoa()) == 0);
+    CHECK(resultados[numResultados].get_pontuacao() == r.get_pontuacao());
+    CHECK(resultados[numResultados].get_ano() == r.get_ano());
+    CHECK(resultados[numResultados].get_mes() == r.get_mes());
+    CHECK(resultados[numResultados].get_dia() == r.get_dia());
+
 }

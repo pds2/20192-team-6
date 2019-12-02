@@ -156,6 +156,7 @@ Pergunta* Repositorio::stringToPergunta(string perguntaStr) {
     int resposta = 0;
     ss << perguntaStr.substr(0, pos);  
     ss >> resposta;
+    ss.clear();
     pergunta->set_respostaCorreta(resposta);
     perguntaStr.erase(0, pos + sequenciaSeparadora.length());
 
@@ -164,6 +165,7 @@ Pergunta* Repositorio::stringToPergunta(string perguntaStr) {
     int dificuldade = 0;
     ss << perguntaStr.substr(0, pos);  
     ss >> dificuldade;
+    ss.clear();
     pergunta->set_dificuldade(dificuldade);
     perguntaStr.erase(0, pos + sequenciaSeparadora.length());
 
