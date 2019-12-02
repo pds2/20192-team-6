@@ -45,7 +45,7 @@ Os desenvolvedores do projeto tiveram forte inspiração no show de TV da SBT ch
 #### Classe Ajuda
 A classe Ajuda é uma classe com o objetivo de servir para representar ajudas indefinidas (inválidas) e servir para ser o modelo (pai), para as classes AjudaConhecido, AjudaCartas e AjudaUniversitarios herdarem. Cada uma das classes filhas de comportam de uma forma.
 
-*Ajuda(Pergunta\*) - Constrói-se a classe com uma pergunta*
+- Ajuda(Pergunta\*) - Constrói-se a classe com uma pergunta
 
 - string Ajuda::get_options() - Retorna as opções que o usuário tem para usar a ajuda
 - void Ajuda::choose_option(int) - Seleciona a opção da ajuda, este método já constroi a PerguntaComAjuda nas classes que herdam Ajuda.
