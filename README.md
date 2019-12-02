@@ -63,10 +63,8 @@ Funções:
 
 Repositório é a classe responsável por gerenciar os arquivos de texto que armazenam as perguntas e resutlados. Ele possui apenas três métodos públicos e alguns outros auxiliares.
   Os arquivos que a classe gerencia são:
-  resources/perguntas/faceis.txt
-  resources/perguntas/medias.txt
-  resources/perguntas/dificeis.txt  
-  resources/perguntas/resultados.txt
+  resources/perguntas/faceis.txt, resources/perguntas/medias.txt, resources/perguntas/dificeis.txt  
+  resources/resultados/resultados.txt
 
 Os métodos da classe são:
 - vector<Pergunta*> sortearPerguntas(int) - Sorteia as perguntas do jogo a partir do número de perguntas passado por parâmetro, já fazendo a divisão por dificuldade
