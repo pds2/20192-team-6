@@ -175,3 +175,23 @@ TEST_CASE("06 - Testando busca e salvamento resultado") {
     CHECK(resultados[numResultados].get_dia() == r.get_dia());
 
 }
+
+TEST_CASE("07 - Testando classe Pergunta"){
+    string *alternativas = new string[4];
+    alternativas[0] = "altA";
+    alternativas[1] = "altB";
+    alternativas[2] = "altC";
+    alternativas[3] = "altD";
+    Pergunta *p = new Pergunta("pergunta", alternativas, 1, 1);
+    CHECK(p->get_pergunta() == "pergunta");
+    CHECK(p->get_respostaCorreta() == 1);
+    CHECK(p->get_dificuldade() == 1);
+ }
+ TEST_CASE("08 - Testando classe Resultado"){
+     Resultado *r = new Resultado("fulano", 1000000, 31, 1, 2019);
+     CHECK(r->get_nomePessoa() == "fulano");
+     CHECK(r->get_pontuacao() == 1000000);
+     CHECK(r->get_dia() == 31);
+     CHECK(r->get_mes() == 1);
+     CHECK(r->get_ano() == 2019);
+}
